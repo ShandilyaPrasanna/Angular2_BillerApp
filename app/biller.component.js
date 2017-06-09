@@ -9,12 +9,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var BillerComponent = (function () {
     function BillerComponent() {
+        this.userArry = [];
+        this.billerArry = [];
+        this.varShow = false;
+        this.varShow1 = false;
     }
+    BillerComponent.prototype.getUsers = function () {
+        console.log("button clicked");
+        this.varShow = true;
+        this.varShow1 = false;
+        var storedData = JSON.parse(localStorage.getItem("Users"));
+        if (storedData) {
+            this.userArry = storedData;
+        }
+        else {
+            document.getElementById("empty").innerHTML = "<h1>No User Found--Contact Admin</h1>";
+        }
+    };
+    BillerComponent.prototype.getBillers = function () {
+        this.varShow = false;
+        this.varShow1 = true;
+        var storedData = JSON.parse(localStorage.getItem("Billers"));
+        if (storedData) {
+            this.billerArry = storedData;
+        }
+        else {
+            document.getElementById("empty").innerHTML = "<h1>No Biller Found--Contact Admin</h1>";
+        }
+    };
     return BillerComponent;
 }());
 BillerComponent = __decorate([
     core_1.Component({
-        template: "<h2>USERS COMPONENT</h2>\n\t<ul>\n<li>Shantanu</li>\n<li>Himanshu</li>\n<li>Rishabh</li>\n<li>Aman</li>\n<li>Ujjwal</li>\n<li>Arpit</li>\n<li>Ankur</li>\n<li>Abhineet</li>\n<li>Siddhant</li>\n<li>Shushant</li>\n</ul>"
+        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\t<button (click)=\"getBillers()\">Get Billers</button>\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}</li>\n\t</ul>\n\t</div>\n\n\t<div *ngIf=\"varShow1\">\n\t<ul >\n\t<li *ngFor=\"let users of billerArry\">{{users}}</li>\n\t</ul>\n\t</div>\n\t<p id=\"empty\"></p>"
     })
 ], BillerComponent);
 exports.BillerComponent = BillerComponent;

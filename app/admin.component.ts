@@ -13,16 +13,18 @@ import {Router,ActivatedRoute} from '@angular/router';
 	<div *ngIf="varUser">
     Enter User Name- <input type="text" #userName (keyup.enter)="addUser(userName.value)"/>
 	</div>
-	
+
 	<div *ngIf="varBiller">
     Enter Biller Name- <input type="text" #billerName (keyup.enter)="addBiller(billerName.value)"/>
 	</div>
-	
+
 	<div *ngIf="varShow">
 	<ul>
 	<li *ngFor="let users of userArray">{{users}}</li>
 	</ul>
 	</div>
+
+	<p id="user"></p>
 	`
 	})
 
@@ -36,12 +38,14 @@ public billerArray=[];
 //constructor(private router:Router,private route:ActivatedRoute){}
 
 user(){
+	document.getElementById("user").innerHTML="";
 this.varUser=((this.varUser==false)?true:false);
 this.varShow=false;
 this.varBiller=false;
 console.log(this.varUser);
 }
 biller(){
+	document.getElementById("user").innerHTML="";
 this.varBiller=((this.varBiller==false)?true:false);
 this.varShow=false;
 this.varUser=false;
@@ -51,24 +55,40 @@ viewUser(){
 	this.varUser=false;
 	this.varBiller=false;
 	this.varShow=((this.varShow==false)?true:false);
-}
+	let storedData=JSON.parse(localStorage.getItem("Users"));
+	console.log("data",storedData);
+	if(storedData){
+	this.userArray=storedData;
+	console.log("Array",this.userArray);
+	}
+
+	else{
+		document.getElementById("user").innerHTML="<h3>No User Found--Add user</h3>";
+	}
+	}
+
 addUser(value){
 
 	console.log("input",value);
-	
+
 		console.log(value);
 		this.varUser=false;
 		this.userArray.push(value);
 		console.log(this.userArray);
+		let arr =this.userArray;
+		localStorage.setItem("Users", JSON.stringify(arr));
 }
 addBiller(value){
 
 	console.log("input",value);
-	
-		
+
+
 		this.varBiller=false;
 		this.billerArray.push(value);
         console.log(this.billerArray);
+				let arr =this.billerArray;
+				localStorage.setItem("Billers", JSON.stringify(arr));
+
 }
 	}
 	/*
