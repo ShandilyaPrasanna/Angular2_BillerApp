@@ -23,7 +23,12 @@ import { Component } from '@angular/core';
 	      <div *ngIf="(users==varShow1)">
 	          <ul >
 	          <li *ngFor="let bill of billerArry">{{bill}}
-                <button (click)="add(users,bill)">Generate Bill</button>
+                <button id="btnGen"(click)="shgen(users,bill)">Generate Bill</button>
+                <div *ngIf="(bill==varShow3)">
+                <input #billMonth placeHolder="ENTER BILL MONTH" />
+                <Input #billAmount placeHolder="ENTER BILL Amount" />
+                <button (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button>
+	            </div>          
 	          </li>
 	          </ul>
 	        </div>
@@ -47,6 +52,10 @@ export class BillerComponent{
 	public varShow=false;
 	public varShow1=false;
 	public varShow2=false;
+	public varShow3=false;
+	public geBill={};
+	public flag=true;
+
 
 	getUsers(){
 		console.log("button clicked");
@@ -63,7 +72,7 @@ else{
 
 getBillers(user){
 
-
+this.varShow3=false;
 this.varShow1=false;
 this.varShow2=user;
 let storedData=JSON.parse(localStorage.getItem("Billers"));
@@ -75,6 +84,15 @@ else{
 	document.getElementById("empty").innerHTML="<h1>No Biller Found--Contact Admin</h1>";
 }
 }
+
+shgen(user,bill)
+{   
+	
+	this.varShow3=bill;
+	console.log("generate Bill",user,bill);
+
+}
+
 
 add(user,biller){
 	console.log(user,biller);
@@ -118,10 +136,11 @@ add(user,biller){
     
 }
 
-viewBill(user){
-	console.log("view Bill",user);
+viewBill(user,bill){
+	console.log("view Bill",user,bill);
 	this.varShow1=user;
 	this.varShow2=false;
+	this.varShow3=false;
 let storedData=JSON.parse(localStorage.getItem("userBiller"));
 if(storedData){
 this.billerArry=storedData[user];
@@ -129,8 +148,39 @@ console.log(storedData,this.billerArry);
 }
 
 else{
-	document.getElementById("empty").innerHTML="<h1>No Biller Found--Contact Admin</h1>";
+	document.getElementById("empty").innerHTML="<h2>No Pending Bill</h2>";
 }
 }
 
+
+genBill(user,bill,mon,amt){
+this.varShow3=false;
+let storedData=JSON.parse(localStorage.getItem(user));
+
+
+    	if(storedData){
+
+    		if(typeof(storedData[bill]) == "undefined"){
+            this.userBiller=storedData;
+            this.flag=true;
+    		}
+    	}
+    if(this.flag || !storedData){
+      this.userbillArry.push(mon);
+    	this.userbillArry.push(amt);
+    	this.userbillArry.push(false);
+       let obj={[bill]:this.userbillArry};
+        this.userBiller= Object.assign({},this.userBiller,obj);
+        
+        localStorage.setItem(user, JSON.stringify(this.userBiller));
+        console.log("localstorage",JSON.parse(localStorage.getItem(user))); 
+        this.userbillArry=[];
+            this.userBiller={};
+            this.flag=false;
+    }
+
 }
+
+}
+    	 
+    
