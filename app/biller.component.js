@@ -10,7 +10,7 @@ var core_1 = require("@angular/core");
 var BillerComponent = (function () {
     function BillerComponent() {
         this.userArry = [];
-        this.userBiller = [];
+        this.userBiller = {};
         this.userbillArry = [];
         this.billerArry = [];
         this.varShow = false;
@@ -44,35 +44,30 @@ var BillerComponent = (function () {
         console.log(user, biller);
         var storedData = JSON.parse(localStorage.getItem("userBiller"));
         if (storedData && storedData[user]) {
-            this.userBiller = storedData;
-            this.userBiller[user].push(biller);
-            console.log(this.userBiller);
-            //localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
-            this.userBiller = [];
-            this.userbillArry = [];
+            if (storedData[user].indexOf(biller) < 0) {
+                this.userBiller = storedData;
+                console.log(this.userBiller[user]);
+                this.userBiller[user].push(biller);
+                console.log(this.userBiller);
+                localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+                console.log("localstorage", JSON.parse(localStorage.getItem("userBiller")));
+            }
+            else {
+                alert(user + " you have already Subscribed to " + biller);
+            }
         }
         else {
             if (storedData) {
+                console.log("ARRAY PRESENT KEY NOT PRESENT");
                 this.userBiller = storedData;
             }
             this.userbillArry.push(biller);
             var obj = (_a = {}, _a[user] = this.userbillArry, _a);
-            this.userBiller.push(obj);
+            this.userBiller = Object.assign({}, this.userBiller, obj);
             localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+            console.log("localstorage", JSON.parse(localStorage.getItem("userBiller")));
         }
         var _a;
-        //  console.log("localstorage",JSON.parse(localStorage.getItem("userBiller"));
-        /*this.userBiller=storedData;
-        this.userbillArry=storedData[user];
-        console.log("array",this.userbillArry);
-        this.userbillArry.push(biller)
-        if(!storedData[user]){
-            let userBiller={[user]:this.userbillArry};
-        }
-        console.log(this.userBiller);
-        localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
-        
-        */ 
     };
     BillerComponent.prototype.viewBill = function (user) {
         console.log("view Bill", user);

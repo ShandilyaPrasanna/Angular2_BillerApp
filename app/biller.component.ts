@@ -33,7 +33,7 @@ import { Component } from '@angular/core';
 
 export class BillerComponent{
 	public userArry=[];
-	public userBiller=[];
+	public userBiller={};
 	public userbillArry=[];
 	public billerArry=[];
 	public varShow=false;
@@ -71,37 +71,41 @@ else{
 add(user,biller){
 	console.log(user,biller);
 	let storedData=JSON.parse(localStorage.getItem("userBiller"));
-    
     if(storedData && storedData[user]){
+    	 if(storedData[user].indexOf(biller)<0){
     	this.userBiller=storedData;
-    	
+    	console.log(this.userBiller[user]);
     	this.userBiller[user].push(biller);
     	console.log(this.userBiller);
-    	//localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
-    	this.userBiller=[];
-    	this.userbillArry=[];
+      
+
+
+            localStorage.setItem("userBiller", JSON.stringify(this.userBiller));  
+            console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
+
+         }
+        else{
+           alert(user+ " you have already Subscribed to "+biller);
+            }	
+    
     }
+    
     else{
     	if(storedData){
+    		console.log("ARRAY PRESENT KEY NOT PRESENT");
        this.userBiller=storedData;
+      
    }
+
        this.userbillArry.push(biller);
        let obj={[user]:this.userbillArry};
-        this.userBiller.push(obj);
-        localStorage.setItem("userBiller", JSON.stringify(this.userBiller));   
+        this.userBiller= Object.assign({},this.userBiller,obj);
+        
+        localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+        console.log("localstorage",JSON.parse(localStorage.getItem("userBiller"))); 
     }
-  //  console.log("localstorage",JSON.parse(localStorage.getItem("userBiller"));
-/*this.userBiller=storedData;
-this.userbillArry=storedData[user];
-console.log("array",this.userbillArry);
-this.userbillArry.push(biller)
-if(!storedData[user]){
-	let userBiller={[user]:this.userbillArry};
+    
 }
-console.log(this.userBiller);
-localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
-
-*/}
 
 viewBill(user){
 	console.log("view Bill",user);
