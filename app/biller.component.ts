@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
 	<li  *ngFor="let users of userArry">{{users}}
        <div >
 	      <button (click)="getBillers(users)">Add Biller</button>
-	      
+	       <button (click)="viewBill(users)">View Bill</button>
+	       
 	        <div *ngIf="(users==varShow2)">
 	          <ul >
 	          <li *ngFor="let bill of billerArry">{{bill}}
@@ -19,9 +20,16 @@ import { Component } from '@angular/core';
 	          </ul>
 	        </div>
 	      
-	      <button (click)="viewBill(users)">View Bill</button>
+	      <div *ngIf="(users==varShow1)">
+	          <ul >
+	          <li *ngFor="let bill of billerArry">{{bill}}
+                <button (click)="add(users,bill)">Generate Bill</button>
+	          </li>
+	          </ul>
+	        </div>
+	     
 	   </div>
-	</li>
+	<br><hr><br></li>
     
 	</ul>
 	</div>
@@ -56,7 +64,7 @@ else{
 getBillers(user){
 
 
-	//this.varShow1=true;
+this.varShow1=false;
 this.varShow2=user;
 let storedData=JSON.parse(localStorage.getItem("Billers"));
 if(storedData){
@@ -82,6 +90,8 @@ add(user,biller){
 
             localStorage.setItem("userBiller", JSON.stringify(this.userBiller));  
             console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
+            this.userbillArry=[];
+            this.userBiller={};
 
          }
         else{
@@ -93,8 +103,7 @@ add(user,biller){
     else{
     	if(storedData){
     		console.log("ARRAY PRESENT KEY NOT PRESENT");
-       this.userBiller=storedData;
-      
+       this.userBiller=storedData;   
    }
 
        this.userbillArry.push(biller);
@@ -103,12 +112,25 @@ add(user,biller){
         
         localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
         console.log("localstorage",JSON.parse(localStorage.getItem("userBiller"))); 
+        this.userbillArry=[];
+            this.userBiller={};
     }
     
 }
 
 viewBill(user){
 	console.log("view Bill",user);
+	this.varShow1=user;
+	this.varShow2=false;
+let storedData=JSON.parse(localStorage.getItem("userBiller"));
+if(storedData){
+this.billerArry=storedData[user];
+console.log(storedData,this.billerArry);
+}
+
+else{
+	document.getElementById("empty").innerHTML="<h1>No Biller Found--Contact Admin</h1>";
+}
 }
 
 }

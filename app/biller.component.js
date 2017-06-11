@@ -30,7 +30,7 @@ var BillerComponent = (function () {
         }
     };
     BillerComponent.prototype.getBillers = function (user) {
-        //this.varShow1=true;
+        this.varShow1 = false;
         this.varShow2 = user;
         var storedData = JSON.parse(localStorage.getItem("Billers"));
         if (storedData) {
@@ -51,6 +51,8 @@ var BillerComponent = (function () {
                 console.log(this.userBiller);
                 localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
                 console.log("localstorage", JSON.parse(localStorage.getItem("userBiller")));
+                this.userbillArry = [];
+                this.userBiller = {};
             }
             else {
                 alert(user + " you have already Subscribed to " + biller);
@@ -66,17 +68,29 @@ var BillerComponent = (function () {
             this.userBiller = Object.assign({}, this.userBiller, obj);
             localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
             console.log("localstorage", JSON.parse(localStorage.getItem("userBiller")));
+            this.userbillArry = [];
+            this.userBiller = {};
         }
         var _a;
     };
     BillerComponent.prototype.viewBill = function (user) {
         console.log("view Bill", user);
+        this.varShow1 = user;
+        this.varShow2 = false;
+        var storedData = JSON.parse(localStorage.getItem("userBiller"));
+        if (storedData) {
+            this.billerArry = storedData[user];
+            console.log(storedData, this.billerArry);
+        }
+        else {
+            document.getElementById("empty").innerHTML = "<h1>No Biller Found--Contact Admin</h1>";
+        }
     };
     return BillerComponent;
 }());
 BillerComponent = __decorate([
     core_1.Component({
-        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\t\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}\n       <div >\n\t      <button (click)=\"getBillers(users)\">Add Biller</button>\n\t      \n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">ADD</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\t      \n\t      <button (click)=\"viewBill(users)\">View Bill</button>\n\t   </div>\n\t</li>\n    \n\t</ul>\n\t</div>\n\n\t\n\t<p id=\"empty\"></p>"
+        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\t\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}\n       <div >\n\t      <button (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button (click)=\"viewBill(users)\">View Bill</button>\n\t       \n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">ADD</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\t      \n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">Generate Bill</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\t     \n\t   </div>\n\t<br><hr><br></li>\n    \n\t</ul>\n\t</div>\n\n\t\n\t<p id=\"empty\"></p>"
     })
 ], BillerComponent);
 exports.BillerComponent = BillerComponent;
