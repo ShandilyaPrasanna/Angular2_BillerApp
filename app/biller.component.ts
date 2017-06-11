@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
 	<li  *ngFor="let users of userArry">{{users}}
        <div >
 	      <button (click)="getBillers(users)">Add Biller</button>
-	       <button (click)="viewBill(users)">View Bill</button>
+	       <button (click)="viewBill(users)">Generate Bill</button>
+	        <button (click)="payBill(users)">Pay Bill</button>
 	       
 	        <div *ngIf="(users==varShow2)">
 	          <ul >
@@ -23,8 +24,8 @@ import { Component } from '@angular/core';
 	      <div *ngIf="(users==varShow1)">
 	          <ul >
 	          <li *ngFor="let bill of billerArry">{{bill}}
-                <button id="btnGen"(click)="shgen(users,bill)">Generate Bill</button>
-                <div *ngIf="(bill==varShow3)">
+                <button (click)="shgen(users,bill)">Generate Bill</button>
+                <div id="genDiv" *ngIf="(bill==varShow3)">
                 <input #billMonth placeHolder="ENTER BILL MONTH" />
                 <Input #billAmount placeHolder="ENTER BILL Amount" />
                 <button (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button>
@@ -179,6 +180,7 @@ let storedData=JSON.parse(localStorage.getItem(user));
             this.flag=false;
     }
 
+//document.getElementById(bill).innerHTML="PAY BiLL";
 }
 
 }

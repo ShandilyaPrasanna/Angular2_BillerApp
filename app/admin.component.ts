@@ -70,7 +70,11 @@ viewUser(){
 addUser(value){
 
 	console.log("input",value);
-
+let storedData=JSON.parse(localStorage.getItem("Users"));
+	if(storedData){
+	this.userArray=storedData;
+	console.log("Array",this.userArray);
+	}
 		console.log(value);
 		this.varUser=false;
 		this.userArray.push(value);
@@ -81,7 +85,10 @@ addUser(value){
 addBiller(value){
 
 	console.log("input",value);
-
+let storedData=JSON.parse(localStorage.getItem("Billers"));
+	if(storedData){
+	this.billerArray=storedData;
+	}
 
 		this.varBiller=false;
 		this.billerArray.push(value);

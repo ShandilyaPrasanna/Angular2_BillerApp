@@ -98,7 +98,6 @@ var BillerComponent = (function () {
     BillerComponent.prototype.genBill = function (user, bill, mon, amt) {
         this.varShow3 = false;
         var storedData = JSON.parse(localStorage.getItem(user));
-        //if(typeof(storedData[bill]) == "undefined"){
         if (storedData) {
             if (typeof (storedData[bill]) == "undefined") {
                 this.userBiller = storedData;
@@ -118,12 +117,13 @@ var BillerComponent = (function () {
             this.flag = false;
         }
         var _a;
+        //document.getElementById(bill).innerHTML="PAY BiLL";
     };
     return BillerComponent;
 }());
 BillerComponent = __decorate([
     core_1.Component({
-        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\t\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}\n       <div >\n\t      <button (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button (click)=\"viewBill(users)\">View Bill</button>\n\t       \n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">ADD</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\t      \n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button id=\"btnGen\"(click)=\"shgen(users,bill)\">Generate Bill</button>\n                <div *ngIf=\"(bill==varShow3)\">\n                <input #billMonth placeHolder=\"ENTER BILL MONTH\" />\n                <Input #billAmount placeHolder=\"ENTER BILL Amount\" />\n                <button (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button>\n\t            </div>          \n\t          </li>\n\t          </ul>\n\t        </div>\n\t     \n\t   </div>\n\t<br><hr><br></li>\n    \n\t</ul>\n\t</div>\n\n\t\n\t<p id=\"empty\"></p>"
+        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\t\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}\n       <div >\n\t      <button (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button (click)=\"viewBill(users)\">Generate Bill</button>\n\t        <button (click)=\"payBill(users)\">Pay Bill</button>\n\t       \n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">ADD</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\t      \n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"shgen(users,bill)\">Generate Bill</button>\n                <div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n                <input #billMonth placeHolder=\"ENTER BILL MONTH\" />\n                <Input #billAmount placeHolder=\"ENTER BILL Amount\" />\n                <button (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button>\n\t            </div>          \n\t          </li>\n\t          </ul>\n\t        </div>\n\t     \n\t   </div>\n\t<br><hr><br></li>\n    \n\t</ul>\n\t</div>\n\n\t\n\t<p id=\"empty\"></p>"
     })
 ], BillerComponent);
 exports.BillerComponent = BillerComponent;

@@ -46,6 +46,11 @@ var AdminComponent = (function () {
     };
     AdminComponent.prototype.addUser = function (value) {
         console.log("input", value);
+        var storedData = JSON.parse(localStorage.getItem("Users"));
+        if (storedData) {
+            this.userArray = storedData;
+            console.log("Array", this.userArray);
+        }
         console.log(value);
         this.varUser = false;
         this.userArray.push(value);
@@ -55,6 +60,10 @@ var AdminComponent = (function () {
     };
     AdminComponent.prototype.addBiller = function (value) {
         console.log("input", value);
+        var storedData = JSON.parse(localStorage.getItem("Billers"));
+        if (storedData) {
+            this.billerArray = storedData;
+        }
         this.varBiller = false;
         this.billerArray.push(value);
         console.log(this.billerArray);
