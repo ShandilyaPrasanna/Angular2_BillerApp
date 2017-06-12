@@ -74,7 +74,7 @@ var AdminComponent = (function () {
 }());
 AdminComponent = __decorate([
     core_1.Component({
-        template: "<h2>Admin Page</h2>\n\n\t<button (click)=\"user()\">ADD USER</button>\n\t<button (click)=\"biller()\">ADD BILLERS</button>\n\t<button (click)=\"viewUser()\">View Users</button>\n\n\t<div *ngIf=\"varUser\">\n    Enter User Name- <input type=\"text\" #userName (keyup.enter)=\"addUser(userName.value)\"/>\n\t</div>\n\n\t<div *ngIf=\"varBiller\">\n    Enter Biller Name- <input type=\"text\" #billerName (keyup.enter)=\"addBiller(billerName.value)\"/>\n\t</div>\n\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li *ngFor=\"let users of userArray\">{{users}}</li>\n\t</ul>\n\t</div>\n\n\t<p id=\"user\"></p>\n\t"
+        template: "<h2>Admin Page</h2>\n\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"user()\">ADD USER</button>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"biller()\">ADD BILLERS</button>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"viewUser()\">View Users</button>\n\n\t<div *ngIf=\"varUser\">\n\t<br><br>\n\t\n\t\t\t<label >Enter User Name-</label>\n\t\t<input type=\"text\" class=\"form-control\" #userName (keyup.enter)=\"addUser(userName.value)\"/>\n\n\n\t</div>\n\n\t<div *ngIf=\"varBiller\">\n <br><br>\n\n\n\t\t\t<label >Enter Biller Name--</label>\n\t\t<input type=\"text\" class=\"form-control\" #billerName (keyup.enter)=\"addBiller(billerName.value)\"/>\n\n\n\t</div>\n\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li *ngFor=\"let users of userArray\">{{users}}</li>\n\t</ul>\n\t</div>\n\n\t<p id=\"user\"></p>\n\t"
     })
 ], AdminComponent);
 exports.AdminComponent = AdminComponent;

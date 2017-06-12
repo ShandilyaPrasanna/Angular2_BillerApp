@@ -2,33 +2,48 @@ import { Component } from '@angular/core';
 
 @Component({
 
-	template:`<h2>Biller COMPONENT</h2>
-	<button (click)="getUsers()">Get Users</button>
+	template:`<h2>USER Page</h2>
+	<button class="btn btn-primary btn-lg" (click)="getUsers()">Get Users</button>
 
 	<div *ngIf="varShow">
 	<ul>
-	<li  *ngFor="let users of userArry">{{users}}
-       <div >
-	      <button (click)="getBillers(users)">Add Biller</button>
-	       <button (click)="viewBill(users)">Generate Bill</button>
-	        <button (click)="shBill(users)">Pay Bill</button>
+	<li  *ngFor="let users of userArry">
 
+	<div class="container">
+	  <div class="jumbotron">
+	    <h2>{{users}}</h2>
+
+       <div >
+	      <button class="btn btn-warning" (click)="getBillers(users)">Add Biller</button>
+	       <button class="btn btn-warning" (click)="viewBill(users)">Generate Bill</button>
+	        <button class="btn btn-warning" (click)="shBill(users)">Pay Bill</button>
+<br><br>
 	        <div *ngIf="(users==varShow2)">
 	          <ul >
 	          <li *ngFor="let bill of billerArry">{{bill}}
-                <button (click)="add(users,bill)">ADD</button>
+                <button class="btn btn-success pull-right"(click)="add(users,bill)">ADD</button><br><br>
 	          </li>
+
 	          </ul>
 	        </div>
 
 	      <div *ngIf="(users==varShow1)">
 	          <ul >
 	          <li *ngFor="let bill of billerGenArry">{{bill}}
-                <button id={{bill}} (click)="shgen(users,bill)">Generate Bill</button>
+                <button class="btn btn-success pull-right"id={{bill}} (click)="shgen(users,bill)">Generate Bill</button><br><br>
                 <div id="genDiv" *ngIf="(bill==varShow3)">
-                <input #billMonth placeHolder="ENTER BILL MONTH" />
-                <Input #billAmount placeHolder="ENTER BILL Amount" />
-                <button (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button>
+
+
+								      <label >ENTER BILL MONTH</label>
+								      <input type="text" class="form-control" #billMonth>
+
+
+								        <label >ENTER BILL Amount</label>
+								      <input type="text" class="form-control" #billAmount>
+
+
+
+            <br><br>    <button class="btn btn-danger pull-right" (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button><br><br><br>
 	            </div>
 	          </li>
 	          </ul>
@@ -37,17 +52,18 @@ import { Component } from '@angular/core';
 					<div *ngIf="(users==varShow4)">
 	          <ul >
 	          <li *ngFor="let bill of billerPayArry">{{bill}}
-               <button (click)="payBill(users,bill)">PAY BILL</button>
-							 <div *ngIf="(bill==varShow5)">
+               <button class="btn btn-success" (click)="payBill(users,bill)">PAY BILL</button>
+							 <div id={{bill}} *ngIf="(bill==varShow5)">
      Bill Month-{{mon}}  Bill Amount={{price}}
-		 <button (click)=billPaied(users,bill)>Pay Now</button>
+		 <button class="btn btn-danger"(click)=billPaied(users,bill)>Pay Now</button>
 							 </div>
 	          </li>
 	          </ul>
 	        </div>
 
 	   </div>
-	<br><hr><br></li>
+		 </div>
+	 </div></li>
 
 	</ul>
 	</div>
@@ -121,6 +137,8 @@ delete storedData[bill];
 console.log(storedData);
 localStorage.setItem(user, JSON.stringify(storedData));
 }
+let id=bill;
+document.getElementById(id).innerHTML="<h1>Payment Done</h1>";
 alert(user+ " Payement was Successfull for "+bill);
 }
 
@@ -277,7 +295,4 @@ this.varShow3=false;
 }
 }
 }
-
-
-
 }

@@ -62,27 +62,9 @@ nav a.active {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding-left: 0;
-  width: 10em;
+  width: 10;
 }
-.items li {
-  cursor: pointer;
-  position: relative;
-  left: 0;
-  background-color: #EEE;
-  margin: .5em;
-  padding: .3em;
-  height: 1.6em;
-  border-radius: 4px;
-}
-.items li:hover {
-  color: #607D8B;
-  background-color: #DDD;
-  left: .1em;
-}
-.items li.selected:hover {
-  background-color: #BBD8DC;
-  color: white;
-}
+
 
 .items .text {
   position: relative;

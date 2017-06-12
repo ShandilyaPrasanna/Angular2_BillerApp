@@ -6,16 +6,27 @@ import {Router,ActivatedRoute} from '@angular/router';
 
 	template:`<h2>Admin Page</h2>
 
-	<button (click)="user()">ADD USER</button>
-	<button (click)="biller()">ADD BILLERS</button>
-	<button (click)="viewUser()">View Users</button>
+	<button class="btn btn-primary btn-lg" (click)="user()">ADD USER</button>
+	<button class="btn btn-primary btn-lg" (click)="biller()">ADD BILLERS</button>
+	<button class="btn btn-primary btn-lg" (click)="viewUser()">View Users</button>
 
 	<div *ngIf="varUser">
-    Enter User Name- <input type="text" #userName (keyup.enter)="addUser(userName.value)"/>
+	<br><br>
+	
+			<label >Enter User Name-</label>
+		<input type="text" class="form-control" #userName (keyup.enter)="addUser(userName.value)"/>
+
+
 	</div>
 
 	<div *ngIf="varBiller">
-    Enter Biller Name- <input type="text" #billerName (keyup.enter)="addBiller(billerName.value)"/>
+ <br><br>
+
+
+			<label >Enter Biller Name--</label>
+		<input type="text" class="form-control" #billerName (keyup.enter)="addBiller(billerName.value)"/>
+
+
 	</div>
 
 	<div *ngIf="varShow">
