@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
        <div >
 	      <button (click)="getBillers(users)">Add Biller</button>
 	       <button (click)="viewBill(users)">Generate Bill</button>
-	        <button (click)="payBill(users)">Pay Bill</button>
+	        <button (click)="shBill(users)">Pay Bill</button>
 
 	        <div *ngIf="(users==varShow2)">
 	          <ul >
@@ -23,13 +23,25 @@ import { Component } from '@angular/core';
 
 	      <div *ngIf="(users==varShow1)">
 	          <ul >
-	          <li *ngFor="let bill of billerArry">{{bill}}
+	          <li *ngFor="let bill of billerGenArry">{{bill}}
                 <button id={{bill}} (click)="shgen(users,bill)">Generate Bill</button>
                 <div id="genDiv" *ngIf="(bill==varShow3)">
                 <input #billMonth placeHolder="ENTER BILL MONTH" />
                 <Input #billAmount placeHolder="ENTER BILL Amount" />
                 <button (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button>
 	            </div>
+	          </li>
+	          </ul>
+	        </div>
+
+					<div *ngIf="(users==varShow4)">
+	          <ul >
+	          <li *ngFor="let bill of billerPayArry">{{bill}}
+               <button (click)="payBill(users,bill)">PAY BILL</button>
+							 <div *ngIf="(bill==varShow5)">
+     Bill Month-{{mon}}  Bill Amount={{price}}
+		 <button (click)=billPaied(users,bill)>Pay Now</button>
+							 </div>
 	          </li>
 	          </ul>
 	        </div>
@@ -46,19 +58,75 @@ import { Component } from '@angular/core';
 })
 
 export class BillerComponent{
-	public userArry=[];
-	public userBiller={};
-	public userbillArry=[];
-	public billerArry=[];
-	public varShow=false;
-	public varShow1=false;
-	public varShow2=false;
-	public varShow3=false;
-	public geBill={};
-	public flag=true;
+
+
+public userArry=[];
+public mon:string;
+public price;
+public userBiller={};
+public userbillArry=[];
+public billerArry=[];
+public varShow=false;
+public pendinBill=[];
+public varShow1=false;
+public varShow2=false;
+public varShow3=false;
+public varShow4=false;
+public varShow5=false;
+public billerPayArry=[];
+public billerGenArry=[];
+public geBill={};
+public flag=true;
+
+
+
+shBill(user){
+this.varShow5=false;
+this.varShow1=false;
+this.varShow2=false;
+this.varShow3=false;
+this.varShow4=user;
+console.log(this.varShow4,user);
+
+//localStorage.setItem(user, JSON.stringify(this.userBiller));
+//let storedData=JSON.parse(localStorage.getItem("userBiller"));
+let storedData=JSON.parse(localStorage.getItem(user));
+console.log(storedData);
+if(storedData){
+this.billerPayArry=Object.keys(storedData);
+console.log(this.billerPayArry);
+console.log(this.billerPayArry);
+}
+//
+}
+
+payBill(user,bill){
+
+let storedData=JSON.parse(localStorage.getItem(user));
+console.log(storedData);
+if(storedData){
+let arry=storedData;
+this.mon=arry[bill][0];
+this.price=arry[bill][1];
+this.varShow5=bill;
+}
+}
+
+billPaied(user,bill)
+{
+let storedData=JSON.parse(localStorage.getItem(user));
+if(storedData){
+console.log(storedData);
+delete storedData[bill];
+console.log(storedData);
+localStorage.setItem(user, JSON.stringify(storedData));
+}
+alert(user+ " Payement was Successfull for "+bill);
+}
 
 
 	getUsers(){
+	this.varShow4=false;
 		console.log("button clicked");
 		this.varShow=true;
 		this.varShow1=false;
@@ -73,6 +141,7 @@ else{
 
 getBillers(user){
 
+this.varShow4=false;
 this.varShow3=false;
 this.varShow1=false;
 this.varShow2=user;
@@ -90,6 +159,7 @@ shgen(user,bill)
 {
 
 	this.varShow3=bill;
+	this.varShow4=false;
 	console.log("generate Bill",user,bill);
 
 }
@@ -141,10 +211,12 @@ viewBill(user,bill){
 	this.varShow1=user;
 	this.varShow2=false;
 	this.varShow3=false;
+	this.varShow4=false;
+
 let storedData=JSON.parse(localStorage.getItem("userBiller"));
 if(storedData){
-this.billerArry=storedData[user];
-console.log(storedData,this.billerArry);
+this.billerGenArry=storedData[user];
+console.log(storedData,this.billerGenArry);
 }
 
 else{
@@ -205,4 +277,7 @@ this.varShow3=false;
 }
 }
 }
+
+
+
 }
