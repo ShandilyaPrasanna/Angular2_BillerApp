@@ -96,34 +96,55 @@ var BillerComponent = (function () {
         }
     };
     BillerComponent.prototype.genBill = function (user, bill, mon, amt) {
-        this.varShow3 = false;
-        var storedData = JSON.parse(localStorage.getItem(user));
-        if (storedData) {
-            if (typeof (storedData[bill]) == "undefined") {
-                this.userBiller = storedData;
-                this.flag = true;
+        if (document.getElementById(bill).innerHTML == "Bill Generated") {
+            alert(user + "BilL Already generated for " + bill);
+        }
+        else {
+            var storedData = JSON.parse(localStorage.getItem(user));
+            console.log("storedDATA", storedData);
+            if (storedData) {
+                console.log("Inside if 1");
+                if (typeof (storedData[bill]) == "undefined") {
+                    console.log("Inside if undefined");
+                    this.userBiller = storedData;
+                    this.flag = true;
+                }
+            }
+            if (this.flag || !storedData) {
+                console.log("Inside if 2");
+                this.userbillArry.push(mon);
+                this.userbillArry.push(amt);
+                this.userbillArry.push(false);
+                var obj = (_a = {}, _a[bill] = this.userbillArry, _a);
+                this.userBiller = Object.assign({}, this.userBiller, obj);
+                localStorage.setItem(user, JSON.stringify(this.userBiller));
+                console.log("localstorage", JSON.parse(localStorage.getItem(user)));
+                var arry = JSON.parse(localStorage.getItem("userBiller"));
+                console.log(arry[user]);
+                var index = arry[user].indexOf(bill);
+                console.log(index);
+                if (index > -1) {
+                    console.log("Inside if index");
+                    arry[user].splice(index, 1);
+                    console.log(arry[user]);
+                    localStorage.setItem("userBiller", JSON.stringify(arry));
+                }
+                this.userbillArry = [];
+                this.userBiller = {};
+                this.flag = false;
+            }
+            if (this.varShow3 == bill) {
+                document.getElementById(bill).innerHTML = "Bill Generated";
+                this.varShow3 = false;
             }
         }
-        if (this.flag || !storedData) {
-            this.userbillArry.push(mon);
-            this.userbillArry.push(amt);
-            this.userbillArry.push(false);
-            var obj = (_a = {}, _a[bill] = this.userbillArry, _a);
-            this.userBiller = Object.assign({}, this.userBiller, obj);
-            localStorage.setItem(user, JSON.stringify(this.userBiller));
-            console.log("localstorage", JSON.parse(localStorage.getItem(user)));
-            this.userbillArry = [];
-            this.userBiller = {};
-            this.flag = false;
-        }
         var _a;
-        //document.getElementById(bill).innerHTML="PAY BiLL";
     };
     return BillerComponent;
 }());
 BillerComponent = __decorate([
     core_1.Component({
-        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\t\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}\n       <div >\n\t      <button (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button (click)=\"viewBill(users)\">Generate Bill</button>\n\t        <button (click)=\"payBill(users)\">Pay Bill</button>\n\t       \n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">ADD</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\t      \n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"shgen(users,bill)\">Generate Bill</button>\n                <div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n                <input #billMonth placeHolder=\"ENTER BILL MONTH\" />\n                <Input #billAmount placeHolder=\"ENTER BILL Amount\" />\n                <button (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button>\n\t            </div>          \n\t          </li>\n\t          </ul>\n\t        </div>\n\t     \n\t   </div>\n\t<br><hr><br></li>\n    \n\t</ul>\n\t</div>\n\n\t\n\t<p id=\"empty\"></p>"
+        template: "<h2>Biller COMPONENT</h2>\n\t<button (click)=\"getUsers()\">Get Users</button>\n\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">{{users}}\n       <div >\n\t      <button (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button (click)=\"viewBill(users)\">Generate Bill</button>\n\t        <button (click)=\"payBill(users)\">Pay Bill</button>\n\n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button (click)=\"add(users,bill)\">ADD</button>\n\t          </li>\n\t          </ul>\n\t        </div>\n\n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button id={{bill}} (click)=\"shgen(users,bill)\">Generate Bill</button>\n                <div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n                <input #billMonth placeHolder=\"ENTER BILL MONTH\" />\n                <Input #billAmount placeHolder=\"ENTER BILL Amount\" />\n                <button (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button>\n\t            </div>\n\t          </li>\n\t          </ul>\n\t        </div>\n\n\t   </div>\n\t<br><hr><br></li>\n\n\t</ul>\n\t</div>\n\n\n\t<p id=\"empty\"></p>"
     })
 ], BillerComponent);
 exports.BillerComponent = BillerComponent;

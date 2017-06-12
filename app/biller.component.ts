@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 
 	template:`<h2>Biller COMPONENT</h2>
 	<button (click)="getUsers()">Get Users</button>
-	
+
 	<div *ngIf="varShow">
 	<ul>
 	<li  *ngFor="let users of userArry">{{users}}
@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
 	      <button (click)="getBillers(users)">Add Biller</button>
 	       <button (click)="viewBill(users)">Generate Bill</button>
 	        <button (click)="payBill(users)">Pay Bill</button>
-	       
+
 	        <div *ngIf="(users==varShow2)">
 	          <ul >
 	          <li *ngFor="let bill of billerArry">{{bill}}
@@ -20,27 +20,27 @@ import { Component } from '@angular/core';
 	          </li>
 	          </ul>
 	        </div>
-	      
+
 	      <div *ngIf="(users==varShow1)">
 	          <ul >
 	          <li *ngFor="let bill of billerArry">{{bill}}
-                <button (click)="shgen(users,bill)">Generate Bill</button>
+                <button id={{bill}} (click)="shgen(users,bill)">Generate Bill</button>
                 <div id="genDiv" *ngIf="(bill==varShow3)">
                 <input #billMonth placeHolder="ENTER BILL MONTH" />
                 <Input #billAmount placeHolder="ENTER BILL Amount" />
                 <button (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button>
-	            </div>          
+	            </div>
 	          </li>
 	          </ul>
 	        </div>
-	     
+
 	   </div>
 	<br><hr><br></li>
-    
+
 	</ul>
 	</div>
 
-	
+
 	<p id="empty"></p>`
 
 })
@@ -87,8 +87,8 @@ else{
 }
 
 shgen(user,bill)
-{   
-	
+{
+
 	this.varShow3=bill;
 	console.log("generate Bill",user,bill);
 
@@ -104,37 +104,36 @@ add(user,biller){
     	console.log(this.userBiller[user]);
     	this.userBiller[user].push(biller);
     	console.log(this.userBiller);
-      
 
 
-            localStorage.setItem("userBiller", JSON.stringify(this.userBiller));  
+
+            localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
             console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
             this.userbillArry=[];
             this.userBiller={};
-
-         }
+}
         else{
            alert(user+ " you have already Subscribed to "+biller);
-            }	
-    
+            }
+
     }
-    
+
     else{
     	if(storedData){
     		console.log("ARRAY PRESENT KEY NOT PRESENT");
-       this.userBiller=storedData;   
+       this.userBiller=storedData;
    }
 
        this.userbillArry.push(biller);
        let obj={[user]:this.userbillArry};
         this.userBiller= Object.assign({},this.userBiller,obj);
-        
+
         localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
-        console.log("localstorage",JSON.parse(localStorage.getItem("userBiller"))); 
+        console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
         this.userbillArry=[];
             this.userBiller={};
     }
-    
+
 }
 
 viewBill(user,bill){
@@ -155,34 +154,55 @@ else{
 
 
 genBill(user,bill,mon,amt){
-this.varShow3=false;
+if(document.getElementById(bill).innerHTML=="Bill Generated")
+{
+alert(user+ "BilL Already generated for "+bill);
+}
+else
+{
 let storedData=JSON.parse(localStorage.getItem(user));
 
-
+console.log("storedDATA",storedData);
     	if(storedData){
-
+console.log("Inside if 1");
     		if(typeof(storedData[bill]) == "undefined"){
-            this.userBiller=storedData;
+				console.log("Inside if undefined");
+
+						this.userBiller=storedData;
             this.flag=true;
     		}
     	}
     if(this.flag || !storedData){
+		console.log("Inside if 2");
+
       this.userbillArry.push(mon);
     	this.userbillArry.push(amt);
     	this.userbillArry.push(false);
        let obj={[bill]:this.userbillArry};
         this.userBiller= Object.assign({},this.userBiller,obj);
-        
-        localStorage.setItem(user, JSON.stringify(this.userBiller));
-        console.log("localstorage",JSON.parse(localStorage.getItem(user))); 
+
+       localStorage.setItem(user, JSON.stringify(this.userBiller));
+       console.log("localstorage",JSON.parse(localStorage.getItem(user)));
+        let arry=JSON.parse(localStorage.getItem("userBiller"));
+				console.log(arry[user]);
+				var index=arry[user].indexOf(bill);
+				console.log(index);
+				if(index>-1){
+				console.log("Inside if index");
+
+				arry[user].splice(index,1);
+				console.log(arry[user]);
+				localStorage.setItem("userBiller", JSON.stringify(arry));
+
+				}
         this.userbillArry=[];
             this.userBiller={};
             this.flag=false;
     }
-
-//document.getElementById(bill).innerHTML="PAY BiLL";
+if(this.varShow3==bill){
+document.getElementById(bill).innerHTML="Bill Generated";
+this.varShow3=false;
 }
-
 }
-    	 
-    
+}
+}
