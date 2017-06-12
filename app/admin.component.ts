@@ -8,11 +8,11 @@ import {Router,ActivatedRoute} from '@angular/router';
 
 	<button class="btn btn-primary btn-lg" (click)="user()">ADD USER</button>
 	<button class="btn btn-primary btn-lg" (click)="biller()">ADD BILLERS</button>
-	<button class="btn btn-primary btn-lg" (click)="viewUser()">View Users</button>
+	<button class="btn btn-primary btn-lg" (click)="getUsers()">View Users</button>
 
 	<div *ngIf="varUser">
 	<br><br>
-	
+
 			<label >Enter User Name-</label>
 		<input type="text" class="form-control" #userName (keyup.enter)="addUser(userName.value)"/>
 
@@ -29,11 +29,63 @@ import {Router,ActivatedRoute} from '@angular/router';
 
 	</div>
 
+
+
+
 	<div *ngIf="varShow">
 	<ul>
-	<li *ngFor="let users of userArray">{{users}}</li>
+	<li  *ngFor="let users of userArry">
+
+	<div class="container">
+		<div class="jumbotron">
+			<h2>{{users}}</h2>
+
+			 <div >
+				<button class="btn btn-warning" (click)="getBillers(users)">Add Biller</button>
+				 <button class="btn btn-warning" (click)="viewBill(users)">Generate Bill</button>
+
+	<br><br>
+					<div *ngIf="(users==varShow2)">
+						<ul >
+						<li *ngFor="let bill of billerArry">{{bill}}
+								<button class="btn btn-success pull-right"(click)="add(users,bill)">ADD</button><br><br>
+						</li>
+
+						</ul>
+					</div>
+
+				<div *ngIf="(users==varShow1)">
+						<ul >
+						<li *ngFor="let bill of billerGenArry">{{bill}}
+								<button class="btn btn-success pull-right"id={{bill}} (click)="shgen(users,bill)">Generate Bill</button><br><br>
+								<div id="genDiv" *ngIf="(bill==varShow3)">
+
+
+											<label >ENTER BILL MONTH</label>
+											<input type="text" class="form-control" #billMonth>
+
+
+												<label >ENTER BILL Amount</label>
+											<input type="text" class="form-control" #billAmount>
+
+
+
+						<br><br>    <button class="btn btn-danger pull-right" (click)="genBill(users,bill,billMonth.value,billAmount.value)">Generate</button><br><br><br>
+							</div>
+						</li>
+						</ul>
+					</div>
+
+
+
+		 </div>
+		 </div>
+	 </div></li>
+
 	</ul>
 	</div>
+
+
 
 	<p id="user"></p>
 	`
@@ -46,6 +98,22 @@ public varShow=false;
 public userArray=[];
 public billerArray=[];
 
+public userArry=[];
+public mon:string;
+public price;
+public userBiller={};
+public userbillArry=[];
+public billerArry=[];
+public pendinBill=[];
+public varShow1=false;
+public varShow2=false;
+public varShow3=false;
+public varShow4=false;
+public varShow5=false;
+public billerPayArry=[];
+public billerGenArry=[];
+public geBill={};
+public flag=true;
 //constructor(private router:Router,private route:ActivatedRoute){}
 
 user(){
@@ -62,21 +130,7 @@ this.varShow=false;
 this.varUser=false;
 console.log(this.varBiller);
 }
-viewUser(){
-	this.varUser=false;
-	this.varBiller=false;
-	this.varShow=((this.varShow==false)?true:false);
-	let storedData=JSON.parse(localStorage.getItem("Users"));
-	console.log("data",storedData);
-	if(storedData){
-	this.userArray=storedData;
-	console.log("Array",this.userArray);
-	}
 
-	else{
-		document.getElementById("user").innerHTML="<h3>No User Found--Add user</h3>";
-	}
-	}
 
 addUser(value){
 
@@ -93,6 +147,173 @@ let storedData=JSON.parse(localStorage.getItem("Users"));
 		let arr =this.userArray;
 		localStorage.setItem("Users", JSON.stringify(arr));
 }
+
+
+
+
+
+
+
+	getUsers(){
+	this.varShow4=false;
+		console.log("button clicked");
+		this.varShow=true;
+		this.varShow1=false;
+
+	let storedData=JSON.parse(localStorage.getItem("Users"));
+	if(storedData){
+  this.userArry=storedData;
+}
+else{
+	document.getElementById("empty").innerHTML="<h1>No User Found--Contact Admin</h1>";
+}}
+
+getBillers(user){
+
+this.varShow4=false;
+this.varShow3=false;
+this.varShow1=false;
+this.varShow2=user;
+let storedData=JSON.parse(localStorage.getItem("Billers"));
+if(storedData){
+this.billerArry=storedData;
+}
+
+else{
+	document.getElementById("empty").innerHTML="<h1>No Biller Found--Contact Admin</h1>";
+}
+}
+
+shgen(user,bill)
+{
+
+	this.varShow3=bill;
+	this.varShow4=false;
+	console.log("generate Bill",user,bill);
+
+}
+
+
+add(user,biller){
+	console.log(user,biller);
+	let storedData=JSON.parse(localStorage.getItem("userBiller"));
+    if(storedData && storedData[user]){
+    	 if(storedData[user].indexOf(biller)<0){
+    	this.userBiller=storedData;
+    	console.log(this.userBiller[user]);
+    	this.userBiller[user].push(biller);
+    	console.log(this.userBiller);
+
+
+
+            localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+            console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
+            this.userbillArry=[];
+            this.userBiller={};
+}
+        else{
+           alert(user+ " you have already Subscribed to "+biller);
+            }
+
+    }
+
+    else{
+    	if(storedData){
+    		console.log("ARRAY PRESENT KEY NOT PRESENT");
+       this.userBiller=storedData;
+   }
+
+       this.userbillArry.push(biller);
+       let obj={[user]:this.userbillArry};
+        this.userBiller= Object.assign({},this.userBiller,obj);
+
+        localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+        console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
+        this.userbillArry=[];
+            this.userBiller={};
+    }
+
+}
+
+viewBill(user,bill){
+	console.log("view Bill",user,bill);
+	this.varShow1=user;
+	this.varShow2=false;
+	this.varShow3=false;
+	this.varShow4=false;
+
+let storedData=JSON.parse(localStorage.getItem("userBiller"));
+if(storedData){
+this.billerGenArry=storedData[user];
+console.log(storedData,this.billerGenArry);
+}
+
+else{
+	document.getElementById("empty").innerHTML="<h2>No Pending Bill</h2>";
+}
+}
+
+
+genBill(user,bill,mon,amt){
+if(document.getElementById(bill).innerHTML=="Bill Generated")
+{
+alert(user+ "BilL Already generated for "+bill);
+}
+else
+{
+let storedData=JSON.parse(localStorage.getItem(user));
+
+console.log("storedDATA",storedData);
+    	if(storedData){
+console.log("Inside if 1");
+    		if(typeof(storedData[bill]) == "undefined"){
+				console.log("Inside if undefined");
+
+						this.userBiller=storedData;
+            this.flag=true;
+    		}
+    	}
+    if(this.flag || !storedData){
+		console.log("Inside if 2");
+
+      this.userbillArry.push(mon);
+    	this.userbillArry.push(amt);
+    	this.userbillArry.push(false);
+       let obj={[bill]:this.userbillArry};
+        this.userBiller= Object.assign({},this.userBiller,obj);
+
+       localStorage.setItem(user, JSON.stringify(this.userBiller));
+       console.log("localstorage",JSON.parse(localStorage.getItem(user)));
+        let arry=JSON.parse(localStorage.getItem("userBiller"));
+				console.log(arry[user]);
+				var index=arry[user].indexOf(bill);
+				console.log(index);
+				if(index>-1){
+				console.log("Inside if index");
+
+				arry[user].splice(index,1);
+				console.log(arry[user]);
+				localStorage.setItem("userBiller", JSON.stringify(arry));
+
+				}
+        this.userbillArry=[];
+            this.userBiller={};
+            this.flag=false;
+    }
+if(this.varShow3==bill){
+document.getElementById(bill).innerHTML="Bill Generated";
+this.varShow3=false;
+}
+}
+}
+
+
+
+
+
+
+
+
 addBiller(value){
 
 	console.log("input",value);
@@ -109,17 +330,4 @@ let storedData=JSON.parse(localStorage.getItem("Billers"));
 
 }
 	}
-	/*
-	onSubmit(user){
-	console.log(user.detail);
-//	this.router.navigate(['/usersDetail',user.detail]); //ABSOLUTE PATHING means if path is changed in app-routing module it will not work
-
-this.router.navigate([user.detail],{relativeTo:this.route}); //RELATIVE PATHING..It will just append the present path with user.detail
-	 }
-	}
-*/
-//--------------------------------------------------------------------
-//For sending optional params you can use {} like->
-//this.router.navigate(['/usersDetail',user.detail,{user.id}]);
-//here user.id is optional params
-//--------------------------------------------------------------------
+	
