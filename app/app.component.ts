@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Biller App</a>
+      <p class="navbar-brand" >Biller Application</p>
     </div>
     <ul class="nav navbar-nav pull-right">
 

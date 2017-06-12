@@ -13,11 +13,10 @@ var biller_component_1 = require("./biller.component");
 var users_detail_component_1 = require("./users.detail.component");
 var pageNotFound_component_1 = require("./pageNotFound.component");
 var routes = [
-    { path: '', redirectTo: '/users', pathMatch: 'full' },
+    { path: '', redirectTo: '/admin', pathMatch: 'full' },
     { path: 'admin', component: admin_component_1.AdminComponent },
     { path: 'user', component: biller_component_1.BillerComponent },
-    //{path:'users/:det',component:UsersDetailComponent},
-    { path: '**', component: pageNotFound_component_1.PageNotFoundComponent } //when wrong url is given
+    { path: '**', component: pageNotFound_component_1.PageNotFoundComponent }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

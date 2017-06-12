@@ -32,8 +32,6 @@ var BillerComponent = (function () {
         this.varShow3 = false;
         this.varShow4 = user;
         console.log(this.varShow4, user);
-        //localStorage.setItem(user, JSON.stringify(this.userBiller));
-        //let storedData=JSON.parse(localStorage.getItem("userBiller"));
         var storedData = JSON.parse(localStorage.getItem(user));
         console.log(storedData);
         if (storedData) {
@@ -41,7 +39,6 @@ var BillerComponent = (function () {
             console.log(this.billerPayArry);
             console.log(this.billerPayArry);
         }
-        //
     };
     BillerComponent.prototype.payBill = function (user, bill) {
         var storedData = JSON.parse(localStorage.getItem(user));
@@ -106,6 +103,7 @@ var BillerComponent = (function () {
                 this.userBiller[user].push(biller);
                 console.log(this.userBiller);
                 localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+                alert(user + " you successfully Subscribed to " + biller);
                 console.log("localstorage", JSON.parse(localStorage.getItem("userBiller")));
                 this.userbillArry = [];
                 this.userBiller = {};
@@ -123,6 +121,7 @@ var BillerComponent = (function () {
             var obj = (_a = {}, _a[user] = this.userbillArry, _a);
             this.userBiller = Object.assign({}, this.userBiller, obj);
             localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+            alert(user + " you successfully Subscribed to " + biller);
             console.log("localstorage", JSON.parse(localStorage.getItem("userBiller")));
             this.userbillArry = [];
             this.userBiller = {};
@@ -193,7 +192,7 @@ var BillerComponent = (function () {
 }());
 BillerComponent = __decorate([
     core_1.Component({
-        template: "<h2>USER Page</h2>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"getUsers()\">Get Users</button>\n\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">\n\n\t<div class=\"container\">\n\t  <div class=\"jumbotron\">\n\t    <h2>{{users}}</h2>\n\n       <div >\n\t      <button class=\"btn btn-warning\" (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button class=\"btn btn-warning\" (click)=\"viewBill(users)\">Generate Bill</button>\n\t        <button class=\"btn btn-warning\" (click)=\"shBill(users)\">Pay Bill</button>\n<br><br>\n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button class=\"btn btn-success pull-right\"(click)=\"add(users,bill)\">ADD</button><br><br>\n\t          </li>\n\n\t          </ul>\n\t        </div>\n\n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerGenArry\">{{bill}}\n                <button class=\"btn btn-success pull-right\"id={{bill}} (click)=\"shgen(users,bill)\">Generate Bill</button><br><br>\n                <div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n\n\n\t\t\t\t\t\t\t\t      <label >ENTER BILL MONTH</label>\n\t\t\t\t\t\t\t\t      <input type=\"text\" class=\"form-control\" #billMonth>\n\n\n\t\t\t\t\t\t\t\t        <label >ENTER BILL Amount</label>\n\t\t\t\t\t\t\t\t      <input type=\"text\" class=\"form-control\" #billAmount>\n\n\n\n            <br><br>    <button class=\"btn btn-danger pull-right\" (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button><br><br><br>\n\t            </div>\n\t          </li>\n\t          </ul>\n\t        </div>\n\n\t\t\t\t\t<div *ngIf=\"(users==varShow4)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerPayArry\">{{bill}}\n               <button class=\"btn btn-success\" (click)=\"payBill(users,bill)\">PAY BILL</button>\n\t\t\t\t\t\t\t <div id={{bill}} *ngIf=\"(bill==varShow5)\">\n     Bill Month-{{mon}}  Bill Amount={{price}}\n\t\t <button class=\"btn btn-danger\"(click)=billPaied(users,bill)>Pay Now</button>\n\t\t\t\t\t\t\t </div>\n\t          </li>\n\t          </ul>\n\t        </div>\n\n\t   </div>\n\t\t </div>\n\t </div></li>\n\n\t</ul>\n\t</div>\n\n\n\t<p id=\"empty\"></p>"
+        template: "\n\t<div class=\"container\">\n\t<button class=\"btn btn-warning btn-block\" (click)=\"getUsers()\">GET USERS</button>\n<br><br>\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">\n\n\t<div class=\"container\">\n\t  <div class=\"jumbotron\">\n\t    <h2>{{users}}</h2>\n\n       <div >\n\t      <button class=\"btn btn-warning\" (click)=\"getBillers(users)\">Add Biller</button>\n\t       <button class=\"btn btn-warning\" (click)=\"viewBill(users)\">Generate Bill</button>\n\t        <button class=\"btn btn-warning\" (click)=\"shBill(users)\">Pay Bill</button>\n<br><br>\n\t        <div *ngIf=\"(users==varShow2)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerArry\">{{bill}}\n                <button class=\"btn btn-success pull-right\"(click)=\"add(users,bill)\">ADD</button><br><br>\n\t          </li>\n\n\t          </ul>\n\t        </div>\n\n\t      <div *ngIf=\"(users==varShow1)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerGenArry\">{{bill}}\n                <button class=\"btn btn-success pull-right\"id={{bill}} (click)=\"shgen(users,bill)\">Generate Bill</button><br><br>\n                <div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n\n\n\t\t\t\t\t\t\t\t      <label >ENTER BILL MONTH</label>\n\t\t\t\t\t\t\t\t      <input type=\"text\" class=\"form-control\" #billMonth>\n\n\n\t\t\t\t\t\t\t\t        <label >ENTER BILL Amount</label>\n\t\t\t\t\t\t\t\t      <input type=\"text\" class=\"form-control\" #billAmount>\n\n\n\n            <br><br>    <button class=\"btn btn-danger pull-right\" (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button><br><br><br>\n\t            </div>\n\t          </li>\n\t          </ul>\n\t        </div>\n\n\t\t\t\t\t<div *ngIf=\"(users==varShow4)\">\n\t          <ul >\n\t          <li *ngFor=\"let bill of billerPayArry\">{{bill}}\n               <button class=\"btn btn-success\" (click)=\"payBill(users,bill)\">PAY BILL</button>\n\t\t\t\t\t\t\t <br><br><div id={{bill}} *ngIf=\"(bill==varShow5)\">\n     <b>Bill Month</b>-{{mon}} <br> <b>Bill Amount</b>={{price}}\n\t\t <button class=\"btn btn-danger pull-right\"(click)=billPaied(users,bill)>Pay Now</button><br><br>\n\t\t\t\t\t\t\t </div>\n\t          </li>\n\t          </ul>\n\t        </div>\n\n\t   </div>\n\t\t </div>\n\t </div></li>\n\n\t</ul>\n\t</div>\n\n\n\t<p id=\"empty\"></p>\n\t</div>"
     })
 ], BillerComponent);
 exports.BillerComponent = BillerComponent;

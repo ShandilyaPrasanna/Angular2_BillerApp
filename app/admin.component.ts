@@ -4,40 +4,53 @@ import {Router,ActivatedRoute} from '@angular/router';
 @Component({
 
 
-	template:`<h2>Admin Page</h2>
+	template:`
+<div class="container">
 
+
+<div class="row">
+<div class="col-sm-3">
+</div>
+<div class="col-sm-6">
+<div class="row">
+<div class="col-sm-2">
+</div>
+<div class="col-sm-8">
+	<h1>Admin Page</h1>
+	</div>
+	</div>
+	<br><hr><br>
 	<button class="btn btn-primary btn-lg" (click)="user()">ADD USER</button>
 	<button class="btn btn-primary btn-lg" (click)="biller()">ADD BILLERS</button>
 	<button class="btn btn-primary btn-lg" (click)="getUsers()">View Users</button>
-
-	<div *ngIf="varUser">
+</div>
+</div>
+	<div >
 	<br><br>
-
-			<label >Enter User Name-</label>
+	     <div *ngIf="varUser" class="container">
+	  <div class="jumbotron">
+        <label >Enter User Name-</label>
 		<input type="text" class="form-control" #userName (keyup.enter)="addUser(userName.value)"/>
+    </div>
+    </div>
+    </div>
 
-
-	</div>
-
-	<div *ngIf="varBiller">
- <br><br>
-
-
-			<label >Enter Biller Name--</label>
+	<div >
+    <br><br>
+     <div *ngIf="varBiller" class="container">
+	  <div class="jumbotron">
+        <label >Enter Biller Name--</label>
 		<input type="text" class="form-control" #billerName (keyup.enter)="addBiller(billerName.value)"/>
+    </div>
+    </div>
+    </div>
 
-
-	</div>
-
-
-
-
-	<div *ngIf="varShow">
+    <div *ngIf="varShow">
 	<ul>
 	<li  *ngFor="let users of userArry">
 
 	<div class="container">
-		<div class="jumbotron">
+		<div  class="jumbotron">
 			<h2>{{users}}</h2>
 
 			 <div >
@@ -88,6 +101,8 @@ import {Router,ActivatedRoute} from '@angular/router';
 
 
 	<p id="user"></p>
+</div>
+	
 	`
 	})
 
@@ -159,13 +174,15 @@ let storedData=JSON.parse(localStorage.getItem("Users"));
 		console.log("button clicked");
 		this.varShow=true;
 		this.varShow1=false;
+		this.varBiller=false;
+		this.varUser=false;
 
 	let storedData=JSON.parse(localStorage.getItem("Users"));
 	if(storedData){
   this.userArry=storedData;
 }
 else{
-	document.getElementById("empty").innerHTML="<h1>No User Found--Contact Admin</h1>";
+	document.getElementById("user").innerHTML="<h1>Admin - First Add user</h1>";
 }}
 
 getBillers(user){
@@ -180,7 +197,7 @@ this.billerArry=storedData;
 }
 
 else{
-	document.getElementById("empty").innerHTML="<h1>No Biller Found--Contact Admin</h1>";
+	document.getElementById("user").innerHTML="<h1>No Biller Found--Contact Admin</h1>";
 }
 }
 
@@ -249,7 +266,7 @@ console.log(storedData,this.billerGenArry);
 }
 
 else{
-	document.getElementById("empty").innerHTML="<h2>No Pending Bill</h2>";
+	document.getElementById("user").innerHTML="<h2>No Pending Bill</h2>";
 }
 }
 
@@ -306,12 +323,6 @@ this.varShow3=false;
 }
 }
 }
-
-
-
-
-
-
 
 
 addBiller(value){

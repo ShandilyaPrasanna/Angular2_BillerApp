@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
 
-	template:`<h2>USER Page</h2>
-	<button class="btn btn-primary btn-lg" (click)="getUsers()">Get Users</button>
-
+	template:`
+	<div class="container">
+	<button class="btn btn-warning btn-block" (click)="getUsers()">GET USERS</button>
+<br><br>
 	<div *ngIf="varShow">
 	<ul>
 	<li  *ngFor="let users of userArry">
@@ -53,9 +54,9 @@ import { Component } from '@angular/core';
 	          <ul >
 	          <li *ngFor="let bill of billerPayArry">{{bill}}
                <button class="btn btn-success" (click)="payBill(users,bill)">PAY BILL</button>
-							 <div id={{bill}} *ngIf="(bill==varShow5)">
-     Bill Month-{{mon}}  Bill Amount={{price}}
-		 <button class="btn btn-danger"(click)=billPaied(users,bill)>Pay Now</button>
+							 <br><br><div id={{bill}} *ngIf="(bill==varShow5)">
+     <b>Bill Month</b>-{{mon}} <br> <b>Bill Amount</b>={{price}}
+		 <button class="btn btn-danger pull-right"(click)=billPaied(users,bill)>Pay Now</button><br><br>
 							 </div>
 	          </li>
 	          </ul>
@@ -69,7 +70,8 @@ import { Component } from '@angular/core';
 	</div>
 
 
-	<p id="empty"></p>`
+	<p id="empty"></p>
+	</div>`
 
 })
 
@@ -104,8 +106,7 @@ this.varShow3=false;
 this.varShow4=user;
 console.log(this.varShow4,user);
 
-//localStorage.setItem(user, JSON.stringify(this.userBiller));
-//let storedData=JSON.parse(localStorage.getItem("userBiller"));
+
 let storedData=JSON.parse(localStorage.getItem(user));
 console.log(storedData);
 if(storedData){
@@ -113,7 +114,7 @@ this.billerPayArry=Object.keys(storedData);
 console.log(this.billerPayArry);
 console.log(this.billerPayArry);
 }
-//
+
 }
 
 payBill(user,bill){
@@ -196,6 +197,7 @@ add(user,biller){
 
 
             localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+            alert(user+ " you successfully Subscribed to "+biller);
             console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
             this.userbillArry=[];
             this.userBiller={};
@@ -215,8 +217,8 @@ add(user,biller){
        this.userbillArry.push(biller);
        let obj={[user]:this.userbillArry};
         this.userBiller= Object.assign({},this.userBiller,obj);
-
         localStorage.setItem("userBiller", JSON.stringify(this.userBiller));
+        alert(user+ " you successfully Subscribed to "+biller);
         console.log("localstorage",JSON.parse(localStorage.getItem("userBiller")));
         this.userbillArry=[];
             this.userBiller={};

@@ -6,11 +6,11 @@ import {UsersDetailComponent} from './users.detail.component';
 import {PageNotFoundComponent} from './pageNotFound.component';
 
  const routes:Routes=[
- {path:'' , redirectTo:'/users',pathMatch:'full'},        //pathMatch by default is prefix,which means for every url it will redired to users only
+ {path:'' , redirectTo:'/admin',pathMatch:'full'},      
  {path:'admin' , component:AdminComponent},
  {path:'user',component:BillerComponent},
- //{path:'users/:det',component:UsersDetailComponent},
- {path:'**' , component:PageNotFoundComponent}            //when wrong url is given
+
+ {path:'**' , component:PageNotFoundComponent}            
  ];
 
  @NgModule({

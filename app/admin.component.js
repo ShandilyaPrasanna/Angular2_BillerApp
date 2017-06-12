@@ -63,12 +63,14 @@ var AdminComponent = (function () {
         console.log("button clicked");
         this.varShow = true;
         this.varShow1 = false;
+        this.varBiller = false;
+        this.varUser = false;
         var storedData = JSON.parse(localStorage.getItem("Users"));
         if (storedData) {
             this.userArry = storedData;
         }
         else {
-            document.getElementById("empty").innerHTML = "<h1>No User Found--Contact Admin</h1>";
+            document.getElementById("user").innerHTML = "<h1>Admin - First Add user</h1>";
         }
     };
     AdminComponent.prototype.getBillers = function (user) {
@@ -81,7 +83,7 @@ var AdminComponent = (function () {
             this.billerArry = storedData;
         }
         else {
-            document.getElementById("empty").innerHTML = "<h1>No Biller Found--Contact Admin</h1>";
+            document.getElementById("user").innerHTML = "<h1>No Biller Found--Contact Admin</h1>";
         }
     };
     AdminComponent.prototype.shgen = function (user, bill) {
@@ -134,7 +136,7 @@ var AdminComponent = (function () {
             console.log(storedData, this.billerGenArry);
         }
         else {
-            document.getElementById("empty").innerHTML = "<h2>No Pending Bill</h2>";
+            document.getElementById("user").innerHTML = "<h2>No Pending Bill</h2>";
         }
     };
     AdminComponent.prototype.genBill = function (user, bill, mon, amt) {
@@ -198,7 +200,7 @@ var AdminComponent = (function () {
 }());
 AdminComponent = __decorate([
     core_1.Component({
-        template: "<h2>Admin Page</h2>\n\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"user()\">ADD USER</button>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"biller()\">ADD BILLERS</button>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"getUsers()\">View Users</button>\n\n\t<div *ngIf=\"varUser\">\n\t<br><br>\n\n\t\t\t<label >Enter User Name-</label>\n\t\t<input type=\"text\" class=\"form-control\" #userName (keyup.enter)=\"addUser(userName.value)\"/>\n\n\n\t</div>\n\n\t<div *ngIf=\"varBiller\">\n <br><br>\n\n\n\t\t\t<label >Enter Biller Name--</label>\n\t\t<input type=\"text\" class=\"form-control\" #billerName (keyup.enter)=\"addBiller(billerName.value)\"/>\n\n\n\t</div>\n\n\n\n\n\t<div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">\n\n\t<div class=\"container\">\n\t\t<div class=\"jumbotron\">\n\t\t\t<h2>{{users}}</h2>\n\n\t\t\t <div >\n\t\t\t\t<button class=\"btn btn-warning\" (click)=\"getBillers(users)\">Add Biller</button>\n\t\t\t\t <button class=\"btn btn-warning\" (click)=\"viewBill(users)\">Generate Bill</button>\n\n\t<br><br>\n\t\t\t\t\t<div *ngIf=\"(users==varShow2)\">\n\t\t\t\t\t\t<ul >\n\t\t\t\t\t\t<li *ngFor=\"let bill of billerArry\">{{bill}}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-success pull-right\"(click)=\"add(users,bill)\">ADD</button><br><br>\n\t\t\t\t\t\t</li>\n\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\n\t\t\t\t<div *ngIf=\"(users==varShow1)\">\n\t\t\t\t\t\t<ul >\n\t\t\t\t\t\t<li *ngFor=\"let bill of billerGenArry\">{{bill}}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-success pull-right\"id={{bill}} (click)=\"shgen(users,bill)\">Generate Bill</button><br><br>\n\t\t\t\t\t\t\t\t<div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n\n\n\t\t\t\t\t\t\t\t\t\t\t<label >ENTER BILL MONTH</label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" #billMonth>\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t<label >ENTER BILL Amount</label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" #billAmount>\n\n\n\n\t\t\t\t\t\t<br><br>    <button class=\"btn btn-danger pull-right\" (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button><br><br><br>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\n\n\n\t\t </div>\n\t\t </div>\n\t </div></li>\n\n\t</ul>\n\t</div>\n\n\n\n\t<p id=\"user\"></p>\n\t"
+        template: "\n<div class=\"container\">\n\n\n<div class=\"row\">\n<div class=\"col-sm-3\">\n</div>\n<div class=\"col-sm-6\">\n<div class=\"row\">\n<div class=\"col-sm-2\">\n</div>\n<div class=\"col-sm-8\">\n\t<h1>Admin Page</h1>\n\t</div>\n\t</div>\n\t<br><hr><br>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"user()\">ADD USER</button>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"biller()\">ADD BILLERS</button>\n\t<button class=\"btn btn-primary btn-lg\" (click)=\"getUsers()\">View Users</button>\n</div>\n</div>\n\t<div >\n\t<br><br>\n\t     <div *ngIf=\"varUser\" class=\"container\">\n\t  <div class=\"jumbotron\">\n        <label >Enter User Name-</label>\n\t\t<input type=\"text\" class=\"form-control\" #userName (keyup.enter)=\"addUser(userName.value)\"/>\n    </div>\n    </div>\n    </div>\n\n\t<div >\n    <br><br>\n     <div *ngIf=\"varBiller\" class=\"container\">\n\t  <div class=\"jumbotron\">\n        <label >Enter Biller Name--</label>\n\t\t<input type=\"text\" class=\"form-control\" #billerName (keyup.enter)=\"addBiller(billerName.value)\"/>\n    </div>\n    </div>\n    </div>\n\n    <div *ngIf=\"varShow\">\n\t<ul>\n\t<li  *ngFor=\"let users of userArry\">\n\n\t<div class=\"container\">\n\t\t<div  class=\"jumbotron\">\n\t\t\t<h2>{{users}}</h2>\n\n\t\t\t <div >\n\t\t\t\t<button class=\"btn btn-warning\" (click)=\"getBillers(users)\">Add Biller</button>\n\t\t\t\t <button class=\"btn btn-warning\" (click)=\"viewBill(users)\">Generate Bill</button>\n\n\t<br><br>\n\t\t\t\t\t<div *ngIf=\"(users==varShow2)\">\n\t\t\t\t\t\t<ul >\n\t\t\t\t\t\t<li *ngFor=\"let bill of billerArry\">{{bill}}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-success pull-right\"(click)=\"add(users,bill)\">ADD</button><br><br>\n\t\t\t\t\t\t</li>\n\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\n\t\t\t\t<div *ngIf=\"(users==varShow1)\">\n\t\t\t\t\t\t<ul >\n\t\t\t\t\t\t<li *ngFor=\"let bill of billerGenArry\">{{bill}}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-success pull-right\"id={{bill}} (click)=\"shgen(users,bill)\">Generate Bill</button><br><br>\n\t\t\t\t\t\t\t\t<div id=\"genDiv\" *ngIf=\"(bill==varShow3)\">\n\n\n\t\t\t\t\t\t\t\t\t\t\t<label >ENTER BILL MONTH</label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" #billMonth>\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t<label >ENTER BILL Amount</label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" #billAmount>\n\n\n\n\t\t\t\t\t\t<br><br>    <button class=\"btn btn-danger pull-right\" (click)=\"genBill(users,bill,billMonth.value,billAmount.value)\">Generate</button><br><br><br>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\n\n\n\t\t </div>\n\t\t </div>\n\t </div></li>\n\n\t</ul>\n\t</div>\n\n\n\n\t<p id=\"user\"></p>\n</div>\n\t\n\t"
     })
 ], AdminComponent);
 exports.AdminComponent = AdminComponent;
